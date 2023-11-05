@@ -1,14 +1,17 @@
 package main
 
 import (
+	"bufio"
+	"cypher_tool/reverse"
+	"cypher_tool/rot13"
 	"fmt"
+	"os"
 	"strings"
 )
 
 func main() {
 	toEncrypt := false
 	encoding := ""
-	message := ""
 
 	fmt.Println("Welcome to the Cypher Tool!")
 
@@ -20,32 +23,43 @@ func main() {
 	encoding = getEncryptionType(ChoiceInput())
 	fmt.Println(encoding)
 
-	fmt.Println("\nEnter the message:")
-	message = getMessage()
-	fmt.Println(message)
+	fmt.Println("Enter the message: ")
+	message := getMessage()
+	fmt.Printf("You entered the following message: %s\n", message)
 
-	fmt.Println("\nDecrypted message using reverse:")
 	getInput(toEncrypt, encoding, message)
 }
 
+func getMessage() string {
+	reader := bufio.NewReader(os.Stdin)
+
+	for {
+		fmt.Print("Enter a message: ")
+		input, _ := reader.ReadString('\n')
+		input = strings.TrimSpace(input)
+
+		if input != "" {
+			return input
+		}
+		fmt.Println("Invalid input. Please try again.")
+	}
+}
+
 func getInput(toEncrypt bool, encoding string, message string) {
-	//Suppose toEncrypt = true
-	//encoding = "ROT13"
-	//message = "hello"
-	//It means I need to encrypt "hello" message using the preferred encryption technique
-	if toEncrypt && encoding == "ROT13" {
-		fmt.Println(rot13.encrypt_rot13(message))
-	} else {
-		fmt.Println(rot13.decrypt_rot13(message))
+	switch encoding {
+	case "ROT13":
+		if toEncrypt {
+			fmt.Printf("Encrypted message using %s technique:\n%s\n", encoding, rot13.Encrypt_rot13(message))
+		} else {
+			fmt.Printf("Decrypted message using %s technique:\n%s\n", encoding, rot13.Decrypt_rot13(message))
+		}
+	case "Reverse":
+		if toEncrypt {
+			fmt.Printf("Encrypted message using %s technique:\n%s\n", encoding, reverse.Encrypt_reverse(message))
+		} else {
+			fmt.Printf("Decrypted message using %s technique:\n%s\n", encoding, reverse.Decrypt_reverse(message))
+		}
 	}
-
-	if toEncrypt && encoding == "Reverse" {
-		fmt.Println(reverse.encrypt_reverse(message))
-	} else {
-		fmt.Println(reverse.decrypt_reverse(message))
-	}
-
-	return
 }
 
 func ChoiceInput() int {
@@ -61,30 +75,17 @@ func ChoiceInput() int {
 	return choice
 }
 
-func getMessage() string {
-	var input string
-
-	for {
-		_, _ = fmt.Scanln(&input)
-		//remove whitespaces from the beginning and the end of the input
-		trimmedInput := strings.TrimSpace(input)
-		if trimmedInput != "" {
-			return trimmedInput
-		}
-		fmt.Println("Invalid message. Please enter a non-empty message:")
-	}
-}
-
 func toEncryption(operation int) bool {
 	return operation == 1
 }
 
 func getEncryptionType(encryptionType int) string {
-	if encryptionType == 1 {
+	switch encryptionType {
+	case 1:
 		return "ROT13"
-	} else if encryptionType == 2 {
+	case 2:
 		return "Reverse"
-	} else {
+	default:
 		return "something else"
 	}
 }
