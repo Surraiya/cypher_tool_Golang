@@ -1,35 +1,90 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
-	fmt.Println("Welcome to the Cypher Tool!")
-	fmt.Println("\nSelect operation (1/2):\n1. Encrypt.\n2. Decrypt.")
+	toEncrypt := false
+	encoding := ""
+	message := ""
 
-	// Get Input
-	//Get the input as number so if any other input is given, it shows a invalid message
-	operation := 0
-	fmt.Print(fmt.Scanln(&operation))
-	//If its empty then the message should be
+	fmt.Println("Welcome to the Cypher Tool!")
+
+	fmt.Println("\nSelect operation (1/2):\n1. Encrypt.\n2. Decrypt.")
+	toEncrypt = toEncryption(ChoiceInput())
+	fmt.Println(toEncrypt)
 
 	fmt.Println("\nSelect cypher (1/2):\n1. ROT13.\n2. Reverse.")
-
-	//Get Input
+	encoding = getEncryptionType(ChoiceInput())
+	fmt.Println(encoding)
 
 	fmt.Println("\nEnter the message:")
-
-	//Get Input
+	message = getMessage()
+	fmt.Println(message)
 
 	fmt.Println("\nDecrypted message using reverse:")
-
-	//return output
+	getInput(toEncrypt, encoding, message)
 }
 
-// Get the input data required for the operation
-func getInput() (toEncrypt bool, encoding string, message string) {
+func getInput(toEncrypt bool, encoding string, message string) {
 	//Suppose toEncrypt = true
 	//encoding = "ROT13"
 	//message = "hello"
 	//It means I need to encrypt "hello" message using the preferred encryption technique
+	if toEncrypt && encoding == "ROT13" {
+		fmt.Println(rot13.encrypt_rot13(message))
+	} else {
+		fmt.Println(rot13.decrypt_rot13(message))
+	}
+
+	if toEncrypt && encoding == "Reverse" {
+		fmt.Println(reverse.encrypt_reverse(message))
+	} else {
+		fmt.Println(reverse.decrypt_reverse(message))
+	}
+
 	return
+}
+
+func ChoiceInput() int {
+	var choice int
+	for {
+		if _, err := fmt.Scan(&choice); err == nil {
+			if choice == 1 || choice == 2 {
+				break
+			}
+		}
+		fmt.Println("Invalid Operation. Please Enter Again:")
+	}
+	return choice
+}
+
+func getMessage() string {
+	var input string
+
+	for {
+		_, _ = fmt.Scanln(&input)
+		//remove whitespaces from the beginning and the end of the input
+		trimmedInput := strings.TrimSpace(input)
+		if trimmedInput != "" {
+			return trimmedInput
+		}
+		fmt.Println("Invalid message. Please enter a non-empty message:")
+	}
+}
+
+func toEncryption(operation int) bool {
+	return operation == 1
+}
+
+func getEncryptionType(encryptionType int) string {
+	if encryptionType == 1 {
+		return "ROT13"
+	} else if encryptionType == 2 {
+		return "Reverse"
+	} else {
+		return "something else"
+	}
 }
