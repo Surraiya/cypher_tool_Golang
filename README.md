@@ -17,9 +17,12 @@ Reverses character positions: first positioned character will be replaced with l
 EXAMPLE:
 
 Enter the message:
+
 abcd
 
+
 Decrypted message using reverse:
+
 zyxw
 
 
