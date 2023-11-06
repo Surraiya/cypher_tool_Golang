@@ -1,4 +1,4 @@
-### Cypher Tool
+# Cypher Tool
 
 Cypher tool is a Command-Line Encryption and Decryption Tool. This command-line tool allows users to encrypt and decrypt messages using various encryption techniques. It supports three encryption methods: ROT13, Reverse, and Caesar Cipher.
 
@@ -76,7 +76,7 @@ Do you want to perform another operation? (y/n)
 ## Encryption Methods
 The tool supports the following encryption techniques:
 
-# ROT13: 
+### ROT13: 
 ROT13 is a simple letter substitution cipher that replaces a letter with the 13th letter after it in the alphabet. It is a symmetric encryption method, meaning that applying ROT13 twice will result in the original text.
 
 <b> Example: </b>
@@ -91,7 +91,7 @@ Decrypted Message using ROT13:
 ```
 </pre>
 
-#Reverse: 
+### Reverse: 
 The Reverse encryption method reverses the order of the characters in the message. This method is straightforward and symmetric.
 
 <b> Example: </b>
@@ -106,7 +106,7 @@ Hello World!
 ```
 </pre>
 
-#Caesar: 
+### Caesar: 
 The Caesar Cipher allows the user to specify a custom shift value (key) for encryption or decryption. It shifts each letter in the message by the specified key, wrapping around the alphabet if necessary. The Caesar Cipher is also symmetric, meaning that the same key is used for both encryption and decryption.
 
 <b> Example: </b>
