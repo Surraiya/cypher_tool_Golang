@@ -12,7 +12,11 @@ func Encrypt_caesar(plaintext string, shift int) string {
 			if 'A' <= char && char <= 'Z' {
 				asciiOffset = 'A'
 			}
-			result.WriteRune((char-asciiOffset+rune(shift))%26 + asciiOffset)
+			shifted := char - asciiOffset + rune(shift) //check for negative shifts, for func decrypt_caesar
+			if shifted < 0 {
+				shifted += 26 * rune((-shift/26)+1) // if needed adjust for negative shifts
+			}
+			result.WriteRune((shifted)%26 + asciiOffset)
 		} else {
 			result.WriteRune(char) // Non-alphabet characters are left unchanged
 		}
