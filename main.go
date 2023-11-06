@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"cypher_tool/caesar"
 	"cypher_tool/reverse"
 	"cypher_tool/rot13"
 	"fmt"
@@ -10,38 +11,67 @@ import (
 )
 
 func main() {
-	toEncrypt := false
-	encoding := ""
+	for {
+		toEncrypt := false
+		encoding := ""
 
-	fmt.Println("Welcome to the Cypher Tool!")
+		fmt.Println("Welcome to the Cypher Tool!")
 
-	fmt.Println("\nSelect operation (1/2):\n1. Encrypt.\n2. Decrypt.")
-	toEncrypt = toEncryption(ChoiceInput())
-	fmt.Println(toEncrypt)
+		fmt.Println("\nSelect operation (1/2):\n1. Encrypt.\n2. Decrypt.")
+		toEncrypt = toEncryption(ChoiceInput())
 
-	fmt.Println("\nSelect cypher (1/2):\n1. ROT13.\n2. Reverse.")
-	encoding = getEncryptionType(ChoiceInput())
-	fmt.Println(encoding)
+		fmt.Println("\nSelect cypher (1/3):\n1. ROT13.\n2. Reverse.\n3. Caesar")
+		encoding = getEncryptionType(ChoiceInput())
 
-	fmt.Println("Enter the message: ")
-	message := getMessage()
-	fmt.Printf("You entered the following message: %s\n", message)
+		fmt.Println("Enter a message: ")
+		message := getMessage()
 
-	getInput(toEncrypt, encoding, message)
+		getInput(toEncrypt, encoding, message)
+
+		if !askForAnotherOperation() {
+			break
+		}
+	}
+}
+
+func toEncryption(operation int) bool {
+	return operation == 1
+}
+
+func getEncryptionType(encryptionType int) string {
+	switch encryptionType {
+	case 1:
+		return "ROT13"
+	case 2:
+		return "Reverse"
+	default:
+		return "Caesar"
+	}
+}
+
+func ChoiceInput() int {
+	var choice int
+	for {
+		if _, err := fmt.Scan(&choice); err == nil {
+			if choice == 1 || choice == 2 || choice == 3 {
+				break
+			}
+		}
+		fmt.Println("Invalid Operation. Please Enter Again:")
+	}
+	return choice
 }
 
 func getMessage() string {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
-		fmt.Print("Enter a message: ")
 		input, _ := reader.ReadString('\n')
 		input = strings.TrimSpace(input)
 
 		if input != "" {
 			return input
 		}
-		fmt.Println("Invalid input. Please try again.")
 	}
 }
 
@@ -59,33 +89,36 @@ func getInput(toEncrypt bool, encoding string, message string) {
 		} else {
 			fmt.Printf("Decrypted message using %s technique:\n%s\n", encoding, reverse.Decrypt_reverse(message))
 		}
-	}
-}
-
-func ChoiceInput() int {
-	var choice int
-	for {
-		if _, err := fmt.Scan(&choice); err == nil {
-			if choice == 1 || choice == 2 {
-				break
-			}
+	case "Caesar":
+		var shift int
+		fmt.Println("Enter the Caesar Cipher shift you want: ")
+		_, err := fmt.Scan(&shift)
+		if err != nil {
+			fmt.Println("Error reading the shift:", err)
+			return
 		}
-		fmt.Println("Invalid Operation. Please Enter Again:")
+
+		if toEncrypt {
+			fmt.Printf("Encrypted message using %s technique:\n%s\n", encoding, caesar.Encrypt_caesar(message, shift))
+		} else {
+			fmt.Printf("Decrypted message using %s technique:\n%s\n", encoding, caesar.Decrypt_caesar(message, shift))
+		}
 	}
-	return choice
 }
 
-func toEncryption(operation int) bool {
-	return operation == 1
-}
-
-func getEncryptionType(encryptionType int) string {
-	switch encryptionType {
-	case 1:
-		return "ROT13"
-	case 2:
-		return "Reverse"
-	default:
-		return "something else"
+func askForAnotherOperation() bool {
+	for {
+		fmt.Println("\nDo you want to perform another operation? (y/n)")
+		var anotherOperation string
+		_, err := fmt.Scan(&anotherOperation)
+		if err != nil {
+			fmt.Println("Error reading input:", err)
+			continue
+		}
+		if anotherOperation != "y" && anotherOperation != "n" {
+			fmt.Println("Invalid operation. Please enter 'y' or 'n'.")
+			continue
+		}
+		return anotherOperation == "y"
 	}
 }
