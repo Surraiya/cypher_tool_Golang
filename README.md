@@ -21,7 +21,7 @@ To use the tool, follow these steps:
 
 2. Run the tool by executing the script or binary (assuming the name of the tool's executable is encrypt_tool):
 <pre>
-```bash
+```
 Copy code
 ./encrypt_tool
 ```
@@ -29,7 +29,7 @@ Copy code
 
 3. You will be greeted and prompted to select the operation (Encrypt or Decrypt), like so:
 <pre>
-```bash
+```
 Welcome to the Cypher Tool!
 
 Select operation (1/2):
@@ -42,7 +42,7 @@ Select operation (1/2):
 
 5. Next, select the encryption type. You will be prompted with options like:
 <pre>
-```bash
+```
 Select cypher (1/3):
 1. ROT13.
 2. Reverse.
@@ -54,20 +54,20 @@ Select cypher (1/3):
 
 7. Input the message you want to encrypt or decrypt:
 <pre>
-```bash
+```
 Enter the message:
 ```
 </pre>
 
 8. The tool will perform the selected operation and display the result:
 <pre>
-```bash
+```
 Result:
 [encrypted/decrypted message]
 ```
 </pre>
 9. If you want to perform another encryption or decryption, you can restart the tool or exit it.
-```bash
+```
 Do you want to perform another operation? (y/n)
 ```
 </pre>
@@ -81,7 +81,7 @@ ROT13 is a simple letter substitution cipher that replaces a letter with the 13t
 
 <b> Example: </b>
 <pre>
-```bash
+```
 Enter a message: 
 Hello World!
 Encrypted Message using ROT13: 
@@ -96,7 +96,7 @@ The Reverse encryption method reverses the order of the characters in the messag
 
 <b> Example: </b>
 <pre>
-```bash
+```
 Enter a message: 
 Hello World!
 Encrypted message using Reverse: 
@@ -111,7 +111,7 @@ The Caesar Cipher allows the user to specify a custom shift value (key) for encr
 
 <b> Example: </b>
 <pre>
-```bash
+```
 Enter a message: 
 Hello World!
 Enter the Caesar Cipher shift you want: 
